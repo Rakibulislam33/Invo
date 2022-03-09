@@ -5,11 +5,51 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-gray-200">
-                    You're logged in!
+
+    <div class=" bg-blue-900">
+        <div class="container mx-auto py-10">
+            <div class="grid grid-cols-4 gap-5">
+
+                <x-card text="clients" :route="route('client.index')" :count="(count($user->clients))" class="bg-gradient-to-tr from-cyan-300 to-white rounded-md" />
+
+                <x-card text="Pending Tasks" route="{{ route('client.index') }}?status=pending" :count="(count($pending_tasks))" class="bg-gradient-to-tl from-cyan-300 to-white rounded-md" />
+
+                <x-card text="Completed Tasks" route="{{ route('client.index') }}?status=complete" :count="(count($user->tasks) - count($pending_tasks))" class="bg-gradient-to-bl from-cyan-300 to-white rounded-md" />
+
+
+                <x-card text="Due Invoice" route="{{ route('client.index') }}?status=unpaid" :count="(count($unpaid_invoices))" class="bg-gradient-to-br from-cyan-300 to-white rounded-md" />
+
+
+            </div>
+        </div>
+    </div>
+
+    <div class=" bg-black mb-10">
+        <div class="container mx-auto">
+            <div class="flex justify-between space-x-5">
+                <div class="prose max-w-none flex-1">
+                    <h3 class="text-white">Todo:</h3>
+                    <ul class="bg-cyan-600 px-5 py-4 inline-block rounded-md list-none">
+                        @forelse ($pending_tasks->slice(0,5) as $task)
+                            <li><a class="text-white hover:text-black transition-all duration-300"  href="{{ route('task.show',$task->slug) }}">{{ $task->name }}</a></li>
+                        @empty
+                        <li>No tasks found!</li>
+                        @endforelse
+                    </ul>
+                </div>
+                <div class="prose max-w-none flex-1">
+                    <h3 class="text-white">Payment History:</h3>
+
+                    <ul class="bg-cyan-600 text-white rounded-md px-5 py-4  list-none">
+                        @forelse ($paid_invoices->slice(0,5) as $invoice)
+                        <li class="flex justify-between items-center">
+                            <span class="text-sm">{{ $invoice->updated_at->format('d M, Y') }}</span>
+                            <span class="text-left flex-1 mx-5">{{ $invoice->client->name }}</span>
+                            <span class="text-left">${{ $invoice->amount }}</span></li>
+                        @empty
+                        <li>No paid invoice found!</li>
+                        @endforelse
+                    </ul>
                 </div>
             </div>
         </div>

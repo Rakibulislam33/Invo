@@ -17,10 +17,10 @@ class CreateTasksTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('slug')->unique();
-            $table->longText('description');
+            $table->longText('description')->nullable();
             $table->integer('price');
             $table->enum('status',['pending','complete'])->default('pending');
-            $table->foreignId('client_id');
+            $table->foreignId('client_id')->constrained('clients','id')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('user_id');
             $table->timestamps();
         });
