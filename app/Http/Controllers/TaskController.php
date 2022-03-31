@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ActivityEvent;
+use App\Models\ActivityLog;
 use App\Models\Client;
 use App\Models\Task;
 use Illuminate\Http\Request;
@@ -18,7 +20,7 @@ class TaskController extends Controller
     public function index(Request $request)
     {
         // get tasks ordre by id
-        $tasks = Task::where('user_id', Auth::id())->orderBy('id', 'DESC');
+        $tasks = Task::where('user_id', Auth::id())->orderBy('status','ASC')->orderBy('end_date', 'ASC')->orderBy('priority','DESC');
 
         // filter by client
         if (!empty($request->client_id)) {
@@ -80,15 +82,21 @@ class TaskController extends Controller
 
         try {
             // tasks store in database
-            Task::create([
-                'name'  => $request->name,
-                'slug'  => Str::slug($request->name),
-                'price'  => $request->price,
+           $task = Task::create([
+                'name'         => $request->name,
+                'slug'         => Str::slug($request->name),
+                'price'        => $request->price,
                 'description'  => $request->description,
-                'client_id'  => $request->client_id,
-                'user_id'  => Auth::id(),
-                'created_at'  => $request->created_at,
+                'client_id'    => $request->client_id,
+                'user_id'      => Auth::id(),
+                'start_date'   => $request->start_date,
+                'end_date'     => $request->end_date,
+                'priority'     => $request->priority,
             ]);
+
+            event(new ActivityEvent('Task '.$task->id.' Created','Task',Auth::id()));
+
+
 
             // return response
             return redirect()->route('task.index')->with('success', 'Task Created');
@@ -136,9 +144,12 @@ class TaskController extends Controller
     public function taskValidation(Request $request)
     {
         return $request->validate([
-            'name'      => ['required', 'max:255', 'string'],
-            'price'     => ['required', 'integer'],
-            'client_id' => ['required', 'max:255', 'not_in:none'],
+            'name'       => ['required', 'max:255', 'string'],
+            'client_id'  => ['required', 'max:255', 'not_in:none'],
+            'price'      => ['required', 'integer'],
+            'start_date' => ['required', 'max:255'],
+            'end_date'   => ['required', 'max:255'],
+            'priority'   => ['required', 'max:255','not_in:none'],
         ]);
     }
 
@@ -163,7 +174,12 @@ class TaskController extends Controller
                 'description'  => $request->description,
                 'client_id'    => $request->client_id,
                 'user_id'      => Auth::id(),
+                'start_date'   => $request->start_date,
+                'end_date'     => $request->end_date,
+                'priority'     => $request->priority,
             ]);
+
+            event(new ActivityEvent('Task '.$task->id.' Updated','Task',Auth::id()));
 
             // return
             return redirect()->route('task.index')->with('success', 'Task Updated');
@@ -183,6 +199,7 @@ class TaskController extends Controller
     {
         try {
             $task->delete();
+            event(new ActivityEvent('Task '.$task->id.' Deleted','Task',Auth::id()));
             return redirect()->route('task.index')->with('success', 'Task Deleted');
         } catch (\Throwable $th) {
             //throw $th;
@@ -204,6 +221,7 @@ class TaskController extends Controller
             $task->update([
                 'status' => 'complete'
             ]);
+            event(new ActivityEvent('Task '.$task->id.' Completed','Task',Auth::id()));
             return redirect()->back()->with('success', 'Mark as Completed');
         } catch (\Throwable $th) {
             //throw $th;
@@ -211,3 +229,8 @@ class TaskController extends Controller
         }
     }
 }
+
+
+
+
+

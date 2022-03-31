@@ -21,7 +21,6 @@ class InvoiceFactory extends Factory
             'user_id'     => User::all()->random()->id,
             'amount'     => rand(100,5000),
             'download_url'     => 'https://picsum.photos/300?ranndom='.rand(235,35235),
-
         ];
     }
 }

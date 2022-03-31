@@ -1,6 +1,7 @@
 <?php
 
 namespace Database\Factories;
+
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -22,6 +23,5 @@ class ClientFactory extends Factory
             'user_id'  => User::all()->random()->id,
             'thumbnail'  => 'https://picsum.photos/300?randdom='.rand(1,22424),
         ];
-
     }
 }

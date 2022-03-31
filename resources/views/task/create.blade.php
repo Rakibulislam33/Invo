@@ -35,20 +35,6 @@
                                 @enderror
 
                             </div>
-
-
-                        </div>
-
-
-
-                        <div class="mt-6 flex">
-                            <div class="flex-1 mr-4">
-                                <label for="price" class="formLabel">Price</label>
-                                <input type="number" name="price" id="price" class="formInput" value="{{ old('price') }}">
-                                @error('price')
-                                    <p class="text-red-700 text-sm">{{ $message }}</p>
-                                @enderror
-                            </div>
                             <div class="flex-1 ml-4">
                                 <label for="client_id" class="formLabel">Client Name</label>
 
@@ -63,15 +49,61 @@
                                 <p class="text-red-700 text-sm">{{ $message }}</p>
                                 @enderror
                             </div>
+
+
+                        </div>
+
+
+
+                        <div class="mt-6 flex">
+                            <div class="flex-1 mr-4">
+                                <label for="price" class="formLabel">Price</label>
+                                <input type="number" name="price" id="price" class="formInput" value="{{ old('price') }}">
+                                @error('price')
+                                    <p class="text-red-700 text-sm">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <div class="flex-1 ml-4">
+                                <label for="start_date" class="formLabel">Start Date</label>
+
+                                <input type="date" name="start_date" id="start_date" class="formInput" value="{{ now()->format('Y-m-d') }}" max="{{ now()->format('Y-m-d') }}">
+
+                                @error('start_date')
+                                <p class="text-red-700 text-sm">{{ $message }}</p>
+                                @enderror
+                            </div>
+                            <div class="flex-1 ml-4">
+                                <label for="end_date" class="formLabel">End Date</label>
+
+                                <input type="date" name="end_date" id="end_date" class="formInput"  min="{{ now()->format('Y-m-d') }}">
+
+                                @error('end_date')
+                                <p class="text-red-700 text-sm">{{ $message }}</p>
+                                @enderror
+                            </div>
+                            <div class="flex-1 ml-4">
+                                <label for="priority" class="formLabel">Priority</label>
+
+                                <select name="priority" id="priority" class="formInput">
+                                    <option value="none">Select Priority</option>
+                                    <option value="high">High</option>
+                                    <option value="medium">Medium</option>
+                                    <option value="low">Low</option>
+                                </select>
+
+
+                                @error('priority')
+                                <p class="text-red-700 text-sm">{{ $message }}</p>
+                                @enderror
+                            </div>
                         </div>
 
                         <div class="mt-6 flex justify-between">
                             <div class="flex-1">
                                 <label for="description" class="formLabel">Description</label>
 
-                                <textarea name="description" id="description"  rows="10" class="formInput">
-                                    {{ old('description') }}
-                                </textarea>
+                                <textarea name="description" id="description"  rows="10" class="formInput">{{ old('description') }}</textarea>
 
                                 @error('description')
                                 <p class="text-red-700 text-sm">{{ $message }}</p>

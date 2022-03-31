@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ActivityEvent;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -73,6 +74,8 @@ class SettingsController extends Controller
 
             // return response
             return redirect()->route('settings.index')->with('success', 'User Updated!');
+            event(new ActivityEvent('User '.$user->id.`user Updated`,'Task',Auth::id()));
+
         } catch (\Throwable $th) {
             //throw $th;
             return redirect()->route('settings.index')->with('error', $th->getMessage());

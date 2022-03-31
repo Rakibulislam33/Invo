@@ -1,5 +1,5 @@
 <x-app-layout>
-    <x-slot name="header" >
+    <x-slot name="header">
 
     </x-slot>
 
@@ -29,26 +29,22 @@
                     </div>
                 </div>
 
-                <h2 class="text-black font-bold text-2xl">Summery</h2>
+                <h2 class="text-white font-bold text-2xl">Summery</h2>
+                <div class="grid grid-cols-4 gap-5 mt-6">
 
 
-                <div class="flex flex-cols-4 gap-5 mt-6">
-
-
-                    <x-card text="Total Tasks" route="{{ route('task.index') }}?client_id={{ $client->id }}" :count="(count($client->tasks))"
-                         class="bg-gradient-to-tr from-cyan-300 to-white rounded-md" />
+                    <x-card text="Total Tasks" route="{{ route('task.index') }}?client_id={{ $client->id }}" :count="count($client->tasks)"
+                        class="bg-gradient-to-tr from-cyan-300 to-white rounded-md" />
 
                     <x-card text="Pending Tasks" route="{{ route('task.index') }}?client_id={{ $client->id }}&status=pending"
-                         :count="(count($pending_tasks))"
-                         class="bg-gradient-to-tl from-cyan-300 to-white rounded-md" />
+                        :count="count($pending_tasks)" class="bg-gradient-to-tl from-cyan-300 to-white rounded-md" />
 
-                    <x-card text="Total Invoice" route="{{ route('invoice.index') }}?client_id={{ $client->id }}" :count="(count($client->invoices))"
-                         class="bg-gradient-to-bl from-cyan-300 to-white rounded-md" />
+                    <x-card text="Total Invoice" route="{{ route('invoice.index') }}?client_id={{ $client->id }}"
+                        :count="count($client->invoices)"
+                        class="bg-gradient-to-bl from-cyan-300 to-white rounded-md" />
 
-
-                    <x-card text="Paid Invoice" route="{{ route('invoice.index') }}?client_id={{ $client->id }}" :count="(count($paid_invoices))"
-                        class="bg-gradient-to-br from-cyan-300 to-white rounded-md" />
-
+                    <x-card text="Paid Invoice" route="{{ route('invoice.index') }}?client_id={{ $client->id }}&status=paid"
+                        :count="count($paid_invoices)" class="bg-gradient-to-br from-cyan-300 to-white rounded-md" />
 
                 </div>
             </div>

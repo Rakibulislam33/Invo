@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Client extends Model
 {
-    use HasFactory;
+    use HasFactory,SoftDeletes;
 
     // protected $fillable  = ['name', 'email'];
     protected $guarded = ['id','created_at', 'updated_at'];
@@ -27,4 +28,9 @@ class Client extends Model
     {
         return $this->belongsTo(User::class,'user_id','id');
     }
+
+//    public function getRouteKeyName()
+//     {
+//         return 'username';
+//     }
 }

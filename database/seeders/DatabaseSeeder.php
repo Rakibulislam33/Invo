@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\Client;
+use App\Models\Invoice;
 use App\Models\Task;
 use App\Models\User;
-use App\Models\Invoice;
+use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -19,30 +19,31 @@ class DatabaseSeeder extends Seeder
     {
         User::create([
             'name'  => 'Rakibul Islam',
-            'email' => 'r@r.com',
+            'email' => 'a@a.com',
             'company' => 'PixCafe Network',
             'phone' => '09696 123456',
             'country' => 'Bangladesh',
             'password' => bcrypt('123'),
-            'thumbnail' => 'https://picsum.photos/300'
+            'thumbnail' => 'https://picsum.photos/300',
+            'role' => 'admin'
+        ]);
+        User::create([
+            'name'  => 'Demo User',
+            'email' => 'd@d.com',
+            'company' => 'Demo Company',
+            'phone' => '09696 123456',
+            'country' => 'Bangladesh',
+            'password' => bcrypt('123'),
+            'thumbnail' => 'https://picsum.photos/300',
+            'role' => 'user'
         ]);
 
 
-        // User::create([
-        //     'name'  => 'Demo user',
-        //     'email' => 'd@d.com',
-        //     'company' => 'PixCafe Network',
-        //     'phone' => '09696 123456',
-        //     'country' => 'Bangladesh',
-        //     'password' => bcrypt('123'),
-        //     'thumbnail' => 'https://picsum.photos/300'
-        // ]);
+        Client::factory(5)->create();
 
+        Task::factory(30)->create();
 
-        Client::factory(10)->create();
+        // Invoice::factory(10)->create();
 
-        Task::factory(150)->create();
-
-      //  Invoice::factory(20)->create();
     }
 }

@@ -11,10 +11,9 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Mail;
 
-class InvoiceEmailJob implements ShouldQueue
+class InoviceEmailJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-
     public $data;
     /**
      * Create a new job instance.
@@ -33,7 +32,6 @@ class InvoiceEmailJob implements ShouldQueue
      */
     public function handle()
     {
-        Mail::send(new InvoiceEmail( $this->data));
-
+        Mail::send(new InvoiceEmail($this->data));
     }
 }

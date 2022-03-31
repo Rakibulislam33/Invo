@@ -15,7 +15,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('queue:work --rest:10')->everyMinute();
+        $schedule->command('queue:work --rest=10')->everyMinute();
     }
 
     /**

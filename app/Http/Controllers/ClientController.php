@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ActivityEvent;
 use App\Models\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -67,8 +68,12 @@ class ClientController extends Controller
                 'user_id'    => Auth::user()->id,
                 'status'     => $request->status,
             ]);
+
+            event(new ActivityEvent('Client '.$request->name.' Created','Client',Auth::id()));
+
             // Return Response
             return redirect()->route('client.index')->with('success', 'Client Added Successfully!');
+
         } catch (\Throwable $th) {
             //throw $th;
             return redirect()->route('client.index')->with('error', $th->getMessage());
@@ -149,6 +154,10 @@ class ClientController extends Controller
                 'user_id'    => Auth::user()->id,
                 'status'     => $request->status,
             ]);
+
+            event(new ActivityEvent('client '.$request->name.' Updated','Client',Auth::id()));
+
+
             // Return Response
             return redirect()->route('client.index')->with('success', 'Client Updated');
         } catch (\Throwable $th) {
@@ -180,6 +189,10 @@ class ClientController extends Controller
                 ]);
                 $message = 'Client is inactive!';
             }
+
+            event(new ActivityEvent('Client '.$client->name.' Deleted','Client',Auth::id()));
+
+
             // Return Response
             return redirect()->route('client.index')->with('success', $message);
         } catch (\Throwable $th) {
